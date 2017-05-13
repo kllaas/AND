@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.klimchuk.and.adapter.RecyclerAdapter;
 import com.klimchuk.and.data.Place;
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 
@@ -22,6 +23,8 @@ public interface MapsContract {
         Context getActivityContext();
 
         void showPlace(RecyclerAdapter recyclerAdapter);
+
+        List<Marker> getMarkers();
     }
 
     interface Presenter {

@@ -14,6 +14,7 @@ import com.klimchuk.and.R;
 import com.klimchuk.and.adapter.RecyclerAdapter;
 import com.klimchuk.and.data.Place;
 import com.klimchuk.and.search.ISearch;
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -83,6 +84,7 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
 
     @Override
     public void showMarkers(List<MarkerViewOptions> markers) {
+
         for (MarkerViewOptions marker : markers) {
 
             map.addMarker(marker);
@@ -97,6 +99,11 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     @Override
     public void showPlace(RecyclerAdapter recyclerAdapter) {
         mRecyclerView.setAdapter(recyclerAdapter);
+    }
+
+    @Override
+    public List<Marker> getMarkers() {
+        return map.getMarkers();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.klimchuk.and.data;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
 /**
@@ -8,9 +10,21 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 
 public class Place {
 
+    @SerializedName("name")
+    @Expose
+    private String name;
+
+    @SerializedName("longitude")
+    @Expose
+    private Double longitude;
+
+    @SerializedName("id")
+    @Expose
     private String id;
 
-    private String name;
+    @SerializedName("latitude")
+    @Expose
+    private Double latitude;
 
     private String address;
 
@@ -32,6 +46,30 @@ public class Place {
         this.id = id;
         this.name = name;
         this.latLng = latLng;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
     public String getPhotoReference() {

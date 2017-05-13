@@ -1,6 +1,9 @@
 package com.klimchuk.and.data;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 /**
  * Created by alexey on 13.05.17.
@@ -8,46 +11,73 @@ import java.util.ArrayList;
 
 public class InstaPost {
 
+    @SerializedName("created_time")
+    @Expose
+    private String createdTime;
+    @SerializedName("profile_picture")
+    @Expose
+    private String profilePicture;
+    @SerializedName("likes")
+    @Expose
+    private Integer likes;
+    @SerializedName("url")
+    @Expose
+    private String url;
+    @SerializedName("profile_username")
+    @Expose
+    private String profileUsername;
+    @SerializedName("tags")
+    @Expose
+    private List<String> tags = null;
+    @SerializedName("id")
+    @Expose
     private String id;
 
-    private String imageUrl;
-
-    private int likesCount;
-
-    private String date;
-
-    private String userImageUrl;
-
-    private String userName;
-
-    private ArrayList<Tag> tags;
-
-    public InstaPost(String id, String imageUrl, int likesCount, String date, String userImageUrl, String userName) {
-        this.id = id;
-        this.imageUrl = imageUrl;
-        this.likesCount = likesCount;
-        this.date = date;
-        this.userImageUrl = userImageUrl;
-        this.userName = userName;
+    public String getCreatedTime() {
+        return createdTime;
     }
 
-    public InstaPost() {
-
+    public void setCreatedTime(String createdTime) {
+        this.createdTime = createdTime;
     }
 
-    public int getLikesCount() {
-        return likesCount;
+    public String getProfilePicture() {
+        return profilePicture;
     }
 
-    public void setLikesCount(int likesCount) {
-        this.likesCount = likesCount;
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
-    public ArrayList<Tag> getTags() {
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getProfileUsername() {
+        return profileUsername;
+    }
+
+    public void setProfileUsername(String profileUsername) {
+        this.profileUsername = profileUsername;
+    }
+
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<Tag> tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 
@@ -57,37 +87,5 @@ public class InstaPost {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getUserImageUrl() {
-        return userImageUrl;
-    }
-
-    public void setUserImageUrl(String userImageUrl) {
-        this.userImageUrl = userImageUrl;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 }

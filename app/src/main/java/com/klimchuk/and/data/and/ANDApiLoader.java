@@ -4,6 +4,7 @@ import android.nfc.Tag;
 
 import com.google.gson.JsonArray;
 import com.klimchuk.and.App;
+import com.klimchuk.and.data.InstaPost;
 import com.klimchuk.and.data.LoadingCallback;
 import com.klimchuk.and.data.Place;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -12,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,10 +48,68 @@ public class ANDApiLoader {
         });
     }
 
-    public static void getAllTags(LoadingCallback<List<Tag>> callback) {
+    public static void getAllTags(LoadingCallback<List<Tag>> callback) throws IOException {
         Call<List<Tag>> call = App.getAndApi().getAllTags();
 
+        call.enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                callback.onPlaceLoaded(response.body());
+            }
 
+            @Override
+            public void onFailure(Call<List<Tag>> call, Throwable t) {
+                callback.onLoadingFailed();
+            }
+        });
+    }
+
+    public static void getAll(LoadingCallback<List<Tag>> callback) throws IOException {
+        Call<List<Tag>> call = App.getAndApi().getAllTags();
+
+        call.enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                callback.onPlaceLoaded(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Tag>> call, Throwable t) {
+                callback.onLoadingFailed();
+            }
+        });
+    }
+
+    public static void getPostsByLocation(String locationId, LoadingCallback<List<InstaPost>> callback) throws IOException {
+        Call<List<InstaPost>> call = App.getAndApi().getPostsFromLocation(locationId);
+
+        call.enqueue(new Callback<List<InstaPost>>() {
+            @Override
+            public void onResponse(Call<List<InstaPost>> call, Response<List<InstaPost>> response) {
+                callback.onPlaceLoaded(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<InstaPost>> call, Throwable t) {
+                callback.onLoadingFailed();
+            }
+        });
+    }
+
+    public static void getPlacesByTag(String tag, LoadingCallback<List<Place>> callback) throws IOException {
+        Call<List<Place>> call = App.getAndApi().getPlacesByTag(tag);
+
+        call.enqueue(new Callback<List<Place>>() {
+            @Override
+            public void onResponse(Call<List<Place>> call, Response<List<Place>> response) {
+                callback.onPlaceLoaded(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Place>> call, Throwable t) {
+                callback.onLoadingFailed();
+            }
+        });
     }
 
     private static List<Place> parsePlaces(String response) throws JSONException {

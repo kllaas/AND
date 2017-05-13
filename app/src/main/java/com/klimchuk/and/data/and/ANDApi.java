@@ -3,6 +3,8 @@ package com.klimchuk.and.data.and;
 import android.nfc.Tag;
 
 import com.google.gson.JsonArray;
+import com.klimchuk.and.data.InstaPost;
+import com.klimchuk.and.data.Place;
 
 import java.util.List;
 
@@ -23,9 +25,9 @@ public interface ANDApi {
     Call<List<Tag>> getAllTags();
 
     @GET("/tags/{tag_id}/locations")
-    Call<List<Tag>> getPlacesByLoaction(@Path("tag_id") int tagId);
+    Call<List<Place>> getPlacesByTag(@Path("tag_id") String tagId);
 
     @GET("/locations/{location_id}/posts")
-    Call<List<Tag>> getPostsFromLocation(@Path("location_id") String locationId);
+    Call<List<InstaPost>> getPostsFromLocation(@Path("location_id") String locationId);
 
 }

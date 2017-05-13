@@ -7,17 +7,16 @@ import com.klimchuk.and.data.InstaPost;
 import com.klimchuk.and.data.LoadingCallback;
 import com.klimchuk.and.data.Place;
 import com.klimchuk.and.data.and.ANDApiLoader;
-import com.klimchuk.and.data.google.GoogleAPILoader;
 import com.klimchuk.and.maps.MapsContract.View;
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
-import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
-
-import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.klimchuk.and.maps.MapsContract.Presenter;
 
@@ -30,6 +29,8 @@ public class MapsPresenter implements Presenter {
     private View mView;
 
     private RecyclerAdapter mAdapter;
+
+    private Map<Long, Place> mPlaces = new HashMap<>();
 
     MapsPresenter(View view) {
         mView = view;
@@ -44,9 +45,16 @@ public class MapsPresenter implements Presenter {
                 ArrayList<MarkerViewOptions> markers = new ArrayList<>();
 
                 for (Place place : places) {
-                    markers.add(new MarkerViewOptions()
-                            .position(place.getLatLng()));
-                    mView.showMarkers(markers);
+                    MarkerViewOptions marker = new MarkerViewOptions()
+                            .position(place.getLatLng());
+
+                    markers.add(marker);
+                }
+
+                mView.showMarkers(markers);
+
+                for (int i = 0; i < mView.getMarkers().size(); i++) {
+                    mPlaces.put(mView.getMarkers().get(i).getId(), places.get(i));
                 }
             }
 
@@ -60,30 +68,19 @@ public class MapsPresenter implements Presenter {
     @Override
     public MapboxMap.OnMarkerViewClickListener getOnMarkerClick() {
         return (marker, view, adapter) -> {
-            loadInstaPosts(marker.getPosition());
+            loadInstaPosts(marker);
             return false;
         };
     }
 
-    private void loadInstaPosts(LatLng position) {
+    private void loadInstaPosts(Marker marker) {
         try {
-            GoogleAPILoader.getPlaceByPosition(mView.getActivityContext(), position,
-                    new LoadingCallback<Place>() {
+            ANDApiLoader.getPostsByLocation(mPlaces.get(marker.getId()).getId(),
+                    new LoadingCallback<List<InstaPost>>() {
                         @Override
-                        public void onPlaceLoaded(Place place) {
-                            List<InstaPost> posts = new ArrayList<>();
-                            posts.add(new InstaPost());
-                            posts.add(new InstaPost());
-                            posts.add(new InstaPost());
-                            posts.add(new InstaPost());
-                            posts.add(new InstaPost());
-                            posts.add(new InstaPost());
-                            posts.add(new InstaPost());
-                            posts.add(new InstaPost());
+                        public void onPlaceLoaded(List<InstaPost> posts) {
 
-                            mView.showPlace(getRecyclerAdapter(place, posts));
-
-//                            GoogleAPILoader.getPhoto();
+                            mView.showPlace(getRecyclerAdapter(mPlaces.get(marker.getId()), posts));
                         }
 
                         @Override
@@ -91,13 +88,13 @@ public class MapsPresenter implements Presenter {
                             Toast.makeText(mView.getActivityContext(), "Failed", Toast.LENGTH_SHORT).show();
                         }
                     });
-        } catch (IOException | JSONException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private RecyclerAdapter getRecyclerAdapter(Place place, List<InstaPost> posts) {
-        mAdapter = new RecyclerAdapter(posts, mView.getActivityContext(), place);
+        mAdapter = new RecyclerAdapter(place, posts, mView.getActivityContext());
         return mAdapter;
     }
 

@@ -11,9 +11,14 @@ import android.widget.TextView;
 import com.klimchuk.and.App;
 import com.klimchuk.and.R;
 import com.klimchuk.and.data.InstaPost;
+import com.klimchuk.and.data.LoadingCallback;
 import com.klimchuk.and.data.Place;
+import com.klimchuk.and.data.google.GoogleAPILoader;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,8 +40,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Place mPlace;
 
-    public RecyclerAdapter(List<InstaPost> items, Context context, Place place) {
-        mPlace = place;
+    public RecyclerAdapter(Place place, List<InstaPost> items, Context context) {
+        this.mPlace = place;
         mItems = items;
         mContext = context;
     }
@@ -71,31 +76,49 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             InstaPost post = mItems.get(position);
 
             Picasso.with(mContext)
-                    .load(post.getImageUrl())
+                    .load(post.getUrl())
                     .into(item.ivPostPhoto);
 
             Picasso.with(mContext)
-                    .load(post.getUserImageUrl())
+                    .load(post.getProfilePicture())
                     .into(item.ivUserPhoto);
 
-            item.tvLikes.setText(post.getLikesCount() + " likes");
-            item.tvName.setText(post.getUserName());
+            item.tvLikes.setText(post.getLikes() + " likes");
+            item.tvName.setText(post.getProfileUsername());
 
         } else if (holder instanceof ViewHolderHeader) {
 
-            ViewHolderHeader header = (ViewHolderHeader) holder;
+            try {
+                GoogleAPILoader.getPlaceByPosition(mContext, mPlace.getLatLng(), new LoadingCallback<Place>() {
+                    @Override
+                    public void onPlaceLoaded(Place place) {
 
-            header.tvAddress.setText(mPlace.getAddress());
-            header.tvName.setText(mPlace.getName());
-            header.tvPostsCount.setText(String.valueOf(mPlace.getPostsCount()));
+                        ViewHolderHeader header = (ViewHolderHeader) holder;
 
-            if (mPlace.getPhotoReference() != null) {
-                header.ivPlacePhoto.setVisibility(View.VISIBLE);
-                Picasso.with(mContext)
-                        .load(App.PLACES_BASE_URL + "/maps/api/place/photo?maxwidth=600&photoreference="
-                                + mPlace.getPhotoReference()
-                                + "&key=" + mContext.getString(R.string.google_api_key))
-                        .into(header.ivPlacePhoto);
+                        header.tvAddress.setText(place.getAddress());
+                        header.tvName.setText(place.getName());
+                        header.tvPostsCount.setText(String.valueOf(mPlace.getPostsCount()) + " posts");
+
+                        if (mPlace.getPhotoReference() != null) {
+                            header.ivPlacePhoto.setVisibility(View.VISIBLE);
+
+                            Picasso.with(mContext)
+                                    .load(App.PLACES_BASE_URL + "/maps/api/place/photo?maxwidth=600&photoreference="
+                                            + mPlace.getPhotoReference()
+                                            + "&key=" + mContext.getString(R.string.google_api_key))
+                                    .into(header.ivPlacePhoto);
+                        }
+                    }
+
+                    @Override
+                    public void onLoadingFailed() {
+
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -110,7 +133,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return mItems.size() + 1;
     }
 
     private boolean isPositionHeader(int position) {

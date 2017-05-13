@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="ZEO Alliance"
         android:textColor="@color/colorTextDark"
         android:textSize="20sp" />
 
@@ -35,7 +34,6 @@
         android:layout_toEndOf="@+id/icon_place"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="бульвар Вацлава Гавела, 6з, Київ, 03067"
         android:textColor="@color/colorTextDark"
         android:textSize="14sp" />
 
@@ -58,7 +56,6 @@
         android:layout_toEndOf="@+id/icon_insta"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="1352 posts"
         android:textColor="@color/colorTextDark"
         android:textSize="14sp" />
 
@@ -71,4 +68,5 @@
         android:layout_marginTop="@dimen/medium_margin"
         android:scaleType="centerCrop"
         android:visibility="gone" />
+
 </RelativeLayout>
