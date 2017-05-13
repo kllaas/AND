@@ -3,51 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.klimchuk.and.MainActivity">
+    tools:context="com.klimchuk.and.activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/maps_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorAccent" />
+        android:layout_height="match_parent" />
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/search_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/search_bar_height"
-        android:layout_margin="4dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shadow_card_search">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/medium_margin"
-            android:text="#"
-            android:textColor="@color/colorText"
-            android:textSize="24sp" />
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/medium_margin"
-            android:background="@color/colorWhite"
-            android:src="@drawable/ic_search_black_32dp"
-            android:tint="@color/colorText" />
-
-        <AutoCompleteTextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/small_margin"
-            android:layout_marginStart="@dimen/small_margin"
-            android:layout_toEndOf="@+id/textView"
-            android:layout_toStartOf="@id/imageButton"
-            android:textColor="@color/colorTextDark" />
-
-    </RelativeLayout>
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

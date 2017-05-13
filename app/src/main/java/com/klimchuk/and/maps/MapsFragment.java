@@ -1,4 +1,4 @@
-package com.klimchuk.and;
+package com.klimchuk.and.maps;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.klimchuk.and.R;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 
@@ -17,7 +18,7 @@ import butterknife.ButterKnife;
  * Created by alexey on 13.05.17.
  */
 
-public class MapsFragment extends Fragment {
+public class MapsFragment extends Fragment implements MapsContract.View {
 
     @BindView(R.id.map_view)
     MapView mapView;
