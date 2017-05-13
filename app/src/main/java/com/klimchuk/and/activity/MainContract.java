@@ -8,14 +8,15 @@ import android.content.Context;
 
 public interface MainContract  {
 
-    public interface View {
+    interface View {
 
         Context getContext();
 
     }
 
-    public interface Presenter {
+    interface Presenter {
 
+        void onSearch(String searchText);
     }
 
 }

@@ -6,12 +6,13 @@ package com.klimchuk.and.maps;
 
 public interface MapsContract {
 
-    public interface View {
+    interface View {
 
     }
 
-    public interface Presenter {
+    interface Presenter {
 
+        void onSearch();
     }
 
 }

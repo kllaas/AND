@@ -3,13 +3,16 @@ package com.klimchuk.and.maps;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.klimchuk.and.R;
+import com.klimchuk.and.search.ISearch;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,12 +21,20 @@ import butterknife.ButterKnife;
  * Created by alexey on 13.05.17.
  */
 
-public class MapsFragment extends Fragment implements MapsContract.View {
+public class MapsFragment extends Fragment implements MapsContract.View, ISearch.SearchCallback {
 
     @BindView(R.id.map_view)
     MapView mapView;
 
+    @BindView(R.id.sliding_layout)
+    SlidingUpPanelLayout mSlidingLayout;
+
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
+
     private MapboxMap map;
+
+    private MapsContract.Presenter mPresenter;
 
     public static MapsFragment newInstance() {
 
@@ -47,7 +58,14 @@ public class MapsFragment extends Fragment implements MapsContract.View {
             map = mapboxMap;
         });
 
+        mSlidingLayout.setAnchorPoint(0.5f);
+
         return view;
+    }
+
+    @Override
+    public void onSearch(String searchText) {
+        mPresenter.onSearch();
     }
 
     @Override

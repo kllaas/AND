@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.klimchuk.and.R;
 import com.klimchuk.and.maps.MapsFragment;
+import com.klimchuk.and.search.ISearch;
 import com.klimchuk.and.search.SearchFragment;
 
 /**
@@ -12,6 +13,8 @@ import com.klimchuk.and.search.SearchFragment;
  */
 
 public class MainPresenter implements MainContract.Presenter {
+
+    ISearch.SearchCallback mSearchCallback;
 
     private MainContract.View mView;
 
@@ -27,6 +30,8 @@ public class MainPresenter implements MainContract.Presenter {
                 .getSupportFragmentManager().beginTransaction();
 
         MapsFragment fragment = MapsFragment.newInstance();
+        mSearchCallback = fragment;
+
         ft.add(R.id.maps_container, fragment);
         ft.commit();
     }
@@ -36,7 +41,13 @@ public class MainPresenter implements MainContract.Presenter {
                 .getSupportFragmentManager().beginTransaction();
 
         SearchFragment fragment = SearchFragment.newInstance();
+
         ft.add(R.id.search_container, fragment);
         ft.commit();
+    }
+
+    @Override
+    public void onSearch(String searchText) {
+        mSearchCallback.onSearch(searchText);
     }
 }
