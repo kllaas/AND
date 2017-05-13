@@ -3,10 +3,10 @@ package com.klimchuk.and.maps;
 import android.widget.Toast;
 
 import com.klimchuk.and.adapter.RecyclerAdapter;
+import com.klimchuk.and.data.GoogleAPILoader;
 import com.klimchuk.and.data.InstaPost;
+import com.klimchuk.and.data.LoadingCallback;
 import com.klimchuk.and.data.Place;
-import com.klimchuk.and.data.PlacesApi;
-import com.klimchuk.and.data.PlacesLoader;
 import com.klimchuk.and.maps.MapsContract.View;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -64,9 +64,8 @@ public class MapsPresenter implements Presenter {
 
     private void loadPlace(LatLng position) {
         try {
-
-            PlacesLoader.getPlaceByPosition(mView.getActivityContext(), position,
-                    new PlacesApi.LoadingPlaceCallback() {
+            GoogleAPILoader.getPlaceByPosition(mView.getActivityContext(), position,
+                    new LoadingCallback<Place>() {
                         @Override
                         public void onPlaceLoaded(Place place) {
                             List<InstaPost> posts = new ArrayList<>();
@@ -81,7 +80,7 @@ public class MapsPresenter implements Presenter {
 
                             mView.showPlace(getRecyclerAdapter(place, posts));
 
-//                            PlacesLoader.getPhoto();
+//                            GoogleAPILoader.getPhoto();
                         }
 
                         @Override

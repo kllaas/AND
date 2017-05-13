@@ -23,19 +23,4 @@ public interface PlacesApi {
                               @Query("maxwidth") String maxWidth,
                               @Query("photoreference") String photoReference);
 
-    interface LoadingPlaceCallback {
-
-        void onPlaceLoaded(Place place);
-
-        void onLoadingFailed();
-
-    }
-
-    interface LoadingPhotoCallback {
-
-        void onPlaceLoaded(String photo);
-
-        void onLoadingFailed();
-
-    }
 }

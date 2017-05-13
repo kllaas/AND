@@ -14,7 +14,7 @@ import com.klimchuk.and.search.SearchFragment;
 
 public class MainPresenter implements MainContract.Presenter {
 
-    ISearch.SearchCallback mSearchCallback;
+    private ISearch.SearchCallback mSearchCallback;
 
     private MainContract.View mView;
 

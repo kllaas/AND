@@ -67,6 +67,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         if (holder instanceof ViewHolderItem) {
 
+            ViewHolderItem item = (ViewHolderItem) holder;
+            InstaPost post = mItems.get(position);
+
+            Picasso.with(mContext)
+                    .load(post.getImageUrl())
+                    .into(item.ivPostPhoto);
+
+            Picasso.with(mContext)
+                    .load(post.getUserImageUrl())
+                    .into(item.ivUserPhoto);
+
+            item.tvLikes.setText(post.getLikesCount() + " likes");
+            item.tvName.setText(post.getUserName());
+
         } else if (holder instanceof ViewHolderHeader) {
 
             ViewHolderHeader header = (ViewHolderHeader) holder;
@@ -108,20 +122,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     class ViewHolderItem extends RecyclerView.ViewHolder {
-/*
 
-        @BindView(R.id.tv_name)
+        @BindView(R.id.tv_user_name)
         TextView tvName;
 
-        @BindView(R.id.iv_icon)
-        ImageView ivIcon;
+        @BindView(R.id.iv_post_photo)
+        ImageView ivPostPhoto;
 
-        @BindView(R.id.iv_icon_download)
-        ImageView ivDownload;
+        @BindView(R.id.profile_image)
+        ImageView ivUserPhoto;
 
-        @BindView(R.id.line)
-        View line;
-*/
+        @BindView(R.id.tv_likes)
+        TextView tvLikes;
 
         View root;
 
