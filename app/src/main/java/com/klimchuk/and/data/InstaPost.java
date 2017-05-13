@@ -1,14 +1,18 @@
 package com.klimchuk.and.data;
 
+import java.util.ArrayList;
+
 /**
  * Created by alexey on 13.05.17.
  */
 
 public class InstaPost {
 
+    private String id;
+
     private String imageUrl;
 
-    private String likesCount;
+    private int likesCount;
 
     private String date;
 
@@ -16,12 +20,27 @@ public class InstaPost {
 
     private String userName;
 
-    public InstaPost(String imageUrl, String likesCount, String date, String userImageUrl, String userName) {
+    private ArrayList<String> tags;
+
+    public InstaPost(String id, String imageUrl, int likesCount, String date, String userImageUrl, String userName) {
+        this.id = id;
         this.imageUrl = imageUrl;
         this.likesCount = likesCount;
         this.date = date;
         this.userImageUrl = userImageUrl;
         this.userName = userName;
+    }
+
+    public InstaPost() {
+
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getImageUrl() {
@@ -30,14 +49,6 @@ public class InstaPost {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public String getLikesCount() {
-        return likesCount;
-    }
-
-    public void setLikesCount(String likesCount) {
-        this.likesCount = likesCount;
     }
 
     public String getDate() {

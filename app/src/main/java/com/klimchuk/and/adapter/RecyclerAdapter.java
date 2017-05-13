@@ -69,8 +69,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ViewHolderHeader header = (ViewHolderHeader) holder;
 
             header.tvAddress.setText(mPlace.getAddress());
-            header.tvAddress.setText(mPlace.getName());
-            header.tvAddress.setText(mPlace.getPostsCount());
+            header.tvName.setText(mPlace.getName());
+            header.tvPostsCount.setText(String.valueOf(mPlace.getPostsCount()));
         }
     }
 

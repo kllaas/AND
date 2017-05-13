@@ -40,14 +40,13 @@
 
     <ImageView
         android:id="@+id/icon_insta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="18dp"
         android:layout_below="@id/tv_address"
         android:layout_marginEnd="@dimen/small_margin"
         android:layout_marginTop="@dimen/small_margin"
-        android:src="@drawable/ic_place_black_24dp"
+        android:src="@drawable/ic_instagram"
         android:tint="@color/colorPrimary" />
-
 
     <TextView
         android:id="@+id/tv_posts_count"
@@ -60,4 +59,5 @@
         android:text="1352 posts"
         android:textColor="@color/colorTextDark"
         android:textSize="@dimen/medium_text_size" />
+
 </RelativeLayout>

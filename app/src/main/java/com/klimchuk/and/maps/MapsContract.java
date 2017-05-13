@@ -2,6 +2,7 @@ package com.klimchuk.and.maps;
 
 import android.content.Context;
 
+import com.klimchuk.and.adapter.RecyclerAdapter;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 
@@ -18,6 +19,8 @@ public interface MapsContract {
         void showMarkers(List<MarkerViewOptions> markers);
 
         Context getActivityContext();
+
+        void showPlace(RecyclerAdapter recyclerAdapter);
     }
 
     interface Presenter {

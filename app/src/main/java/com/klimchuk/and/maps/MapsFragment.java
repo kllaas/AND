@@ -4,12 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.klimchuk.and.R;
+import com.klimchuk.and.adapter.RecyclerAdapter;
 import com.klimchuk.and.search.ISearch;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -72,6 +74,9 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
             mPresenter = new MapsPresenter(this);
             map.setOnMarkerClickListener(mPresenter.getOnMarkerClick());
         });
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
 
@@ -86,6 +91,11 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     @Override
     public Context getActivityContext() {
         return getContext();
+    }
+
+    @Override
+    public void showPlace(RecyclerAdapter recyclerAdapter) {
+        mRecyclerView.setAdapter(recyclerAdapter);
     }
 
     @Override
