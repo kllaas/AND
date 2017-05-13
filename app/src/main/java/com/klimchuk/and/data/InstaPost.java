@@ -20,7 +20,7 @@ public class InstaPost {
 
     private String userName;
 
-    private ArrayList<String> tags;
+    private ArrayList<Tag> tags;
 
     public InstaPost(String id, String imageUrl, int likesCount, String date, String userImageUrl, String userName) {
         this.id = id;
@@ -43,11 +43,11 @@ public class InstaPost {
         this.likesCount = likesCount;
     }
 
-    public ArrayList<String> getTags() {
+    public ArrayList<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<String> tags) {
+    public void setTags(ArrayList<Tag> tags) {
         this.tags = tags;
     }
 

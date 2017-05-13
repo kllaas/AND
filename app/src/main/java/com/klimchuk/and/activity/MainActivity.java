@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.klimchuk.and.R;
+import com.klimchuk.and.data.Place;
 import com.klimchuk.and.search.ISearch;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ISearch.SearchCallback, MainContract.View {
 
@@ -24,8 +27,8 @@ public class MainActivity extends AppCompatActivity implements ISearch.SearchCal
 
 
     @Override
-    public void onSearch(String searchText) {
-        mPresenter.onSearch(searchText);
+    public void onSearch(List<Place> places) {
+        mPresenter.onSearch(places);
     }
 
     @Override

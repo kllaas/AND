@@ -3,6 +3,7 @@ package com.klimchuk.and.maps;
 import android.content.Context;
 
 import com.klimchuk.and.adapter.RecyclerAdapter;
+import com.klimchuk.and.data.Place;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 
@@ -27,7 +28,7 @@ public interface MapsContract {
 
         MapboxMap.OnMarkerViewClickListener getOnMarkerClick();
 
-        void onSearch();
+        void onSearch(List<Place> places);
     }
 
 }

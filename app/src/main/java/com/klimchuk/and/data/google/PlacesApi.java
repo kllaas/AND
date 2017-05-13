@@ -1,4 +1,4 @@
-package com.klimchuk.and.data;
+package com.klimchuk.and.data.google;
 
 import com.google.gson.JsonObject;
 

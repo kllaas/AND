@@ -1,10 +1,12 @@
-package com.klimchuk.and.data;
+package com.klimchuk.and.data.google;
 
 import android.content.Context;
 
 import com.google.gson.JsonObject;
 import com.klimchuk.and.App;
 import com.klimchuk.and.R;
+import com.klimchuk.and.data.LoadingCallback;
+import com.klimchuk.and.data.Place;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import org.json.JSONArray;
@@ -26,7 +28,7 @@ public class GoogleAPILoader {
     public static void getPlaceByPosition(Context context, LatLng latLng, LoadingCallback<Place> callback) throws IOException, JSONException {
         App.getPlacesApi()
                 .getPlaces(context.getString(R.string.google_api_key), context.getString(R.string.request_types),
-                        latLng.getLatitude() + "," + latLng.getLongitude(), "500")
+                        latLng.getLatitude() + "," + latLng.getLongitude(), "200")
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

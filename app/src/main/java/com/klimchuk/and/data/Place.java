@@ -8,6 +8,8 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 
 public class Place {
 
+    private String id;
+
     private String name;
 
     private String address;
@@ -24,6 +26,12 @@ public class Place {
         this.latLng = latLng;
         this.postsCount = postsCount;
         this.photoReference = photoReference;
+    }
+
+    public Place(String id, String name, LatLng latLng) {
+        this.id = id;
+        this.name = name;
+        this.latLng = latLng;
     }
 
     public String getPhotoReference() {

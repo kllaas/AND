@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.klimchuk.and.R;
 import com.klimchuk.and.adapter.RecyclerAdapter;
+import com.klimchuk.and.data.Place;
 import com.klimchuk.and.search.ISearch;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -99,8 +100,8 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     }
 
     @Override
-    public void onSearch(String searchText) {
-        mPresenter.onSearch();
+    public void onSearch(List<Place> places) {
+        mPresenter.onSearch(places);
     }
 
     @Override

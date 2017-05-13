@@ -3,10 +3,11 @@ package com.klimchuk.and.maps;
 import android.widget.Toast;
 
 import com.klimchuk.and.adapter.RecyclerAdapter;
-import com.klimchuk.and.data.GoogleAPILoader;
 import com.klimchuk.and.data.InstaPost;
 import com.klimchuk.and.data.LoadingCallback;
 import com.klimchuk.and.data.Place;
+import com.klimchuk.and.data.and.ANDApiLoader;
+import com.klimchuk.and.data.google.GoogleAPILoader;
 import com.klimchuk.and.maps.MapsContract.View;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -17,7 +18,6 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static com.klimchuk.and.maps.MapsContract.Presenter;
 
@@ -38,31 +38,34 @@ public class MapsPresenter implements Presenter {
     }
 
     private void loadMarkers() {
-        ArrayList<MarkerViewOptions> markers = new ArrayList<>();
+        ANDApiLoader.getAllPlaces(new LoadingCallback<List<Place>>() {
+            @Override
+            public void onPlaceLoaded(List<Place> places) {
+                ArrayList<MarkerViewOptions> markers = new ArrayList<>();
 
-        float minX = -0.5f;
-        float maxX = 0.5f;
+                for (Place place : places) {
+                    markers.add(new MarkerViewOptions()
+                            .position(place.getLatLng()));
+                    mView.showMarkers(markers);
+                }
+            }
 
-        Random rand = new Random();
+            @Override
+            public void onLoadingFailed() {
 
-        for (int i = 0; i < 200; i++) {
-            float finalX = rand.nextFloat() * (maxX - minX) + minX;
-            markers.add(new MarkerViewOptions()
-                    .position(new LatLng(-33.85699436 + finalX, 151.21510684 + finalX)));
-        }
-
-        mView.showMarkers(markers);
+            }
+        });
     }
 
     @Override
     public MapboxMap.OnMarkerViewClickListener getOnMarkerClick() {
         return (marker, view, adapter) -> {
-            loadPlace(marker.getPosition());
+            loadInstaPosts(marker.getPosition());
             return false;
         };
     }
 
-    private void loadPlace(LatLng position) {
+    private void loadInstaPosts(LatLng position) {
         try {
             GoogleAPILoader.getPlaceByPosition(mView.getActivityContext(), position,
                     new LoadingCallback<Place>() {
@@ -99,7 +102,7 @@ public class MapsPresenter implements Presenter {
     }
 
     @Override
-    public void onSearch() {
+    public void onSearch(List<Place> places) {
 
     }
 }

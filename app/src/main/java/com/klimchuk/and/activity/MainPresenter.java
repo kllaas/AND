@@ -4,9 +4,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.klimchuk.and.R;
+import com.klimchuk.and.data.Place;
 import com.klimchuk.and.maps.MapsFragment;
 import com.klimchuk.and.search.ISearch;
 import com.klimchuk.and.search.SearchFragment;
+
+import java.util.List;
 
 /**
  * Created by alexey on 13.05.17.
@@ -23,6 +26,8 @@ public class MainPresenter implements MainContract.Presenter {
 
         showMapsFragment();
         showSearchFragment();
+
+
     }
 
     private void showMapsFragment() {
@@ -47,7 +52,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void onSearch(String searchText) {
-        mSearchCallback.onSearch(searchText);
+    public void onSearch(List<Place> places) {
+        mSearchCallback.onSearch(places);
     }
 }
