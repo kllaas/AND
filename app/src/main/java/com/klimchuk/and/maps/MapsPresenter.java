@@ -7,6 +7,7 @@ import com.klimchuk.and.data.InstaPost;
 import com.klimchuk.and.data.Place;
 import com.klimchuk.and.data.PlacesApi;
 import com.klimchuk.and.data.PlacesLoader;
+import com.klimchuk.and.maps.MapsContract.View;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -19,7 +20,6 @@ import java.util.List;
 import java.util.Random;
 
 import static com.klimchuk.and.maps.MapsContract.Presenter;
-import static com.klimchuk.and.maps.MapsContract.View;
 
 /**
  * Created by alexey on 13.05.17.
@@ -55,10 +55,10 @@ public class MapsPresenter implements Presenter {
     }
 
     @Override
-    public MapboxMap.OnMarkerClickListener getOnMarkerClick() {
-        return marker -> {
+    public MapboxMap.OnMarkerViewClickListener getOnMarkerClick() {
+        return (marker, view, adapter) -> {
             loadPlace(marker.getPosition());
-            return true;
+            return false;
         };
     }
 
@@ -80,6 +80,8 @@ public class MapsPresenter implements Presenter {
                             posts.add(new InstaPost());
 
                             mView.showPlace(getRecyclerAdapter(place, posts));
+
+//                            PlacesLoader.getPhoto();
                         }
 
                         @Override

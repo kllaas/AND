@@ -18,9 +18,22 @@ public interface PlacesApi {
                                @Query("location") String location,
                                @Query("radius") String radius);
 
+    @GET("/maps/api/place/photo/")
+    Call<JsonObject> getPhoto(@Query("key") String key,
+                              @Query("maxwidth") String maxWidth,
+                              @Query("photoreference") String photoReference);
+
     interface LoadingPlaceCallback {
 
         void onPlaceLoaded(Place place);
+
+        void onLoadingFailed();
+
+    }
+
+    interface LoadingPhotoCallback {
+
+        void onPlaceLoaded(String photo);
 
         void onLoadingFailed();
 

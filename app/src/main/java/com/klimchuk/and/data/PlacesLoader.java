@@ -31,7 +31,7 @@ public class PlacesLoader {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         try {
-                            callback.onPlaceLoaded(parseResponse(response.body().toString()));
+                            callback.onPlaceLoaded(parsePlace(response.body().toString()));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -45,7 +45,31 @@ public class PlacesLoader {
                 });
     }
 
-    private static Place parseResponse(String response) throws JSONException {
+    public static void getPhoto(Context context, String reference, PlacesApi.LoadingPhotoCallback callback) {
+      /*  App.getPlacesApi().getPhoto(context.getString(R.string.google_api_key), "600", reference)
+                .enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                        callback.onPlaceLoaded(parsePhoto(response.body().toString()));
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                    }
+                });*/
+
+    }
+
+    private static String parsePhoto(String response) throws JSONException {
+        JSONObject root = new JSONObject(response);
+        System.out.println(response);
+
+        JSONArray mainArray = root.getJSONArray("results");
+        return null;
+    }
+
+    private static Place parsePlace(String response) throws JSONException {
         JSONObject root = new JSONObject(response);
         System.out.println(response);
 
@@ -60,8 +84,13 @@ public class PlacesLoader {
         String name = place.getString("name");
         String address = place.getString("vicinity");
 
+        String photo = null;
+        if (place.has("photos")) {
+            photo = place.getJSONArray("photos").getJSONObject(0).getString("photo_reference");
+        }
+
         // TODO: put real posts count here
-        return new Place(name, address, new LatLng(lat, lng), 1256);
+        return new Place(name, address, new LatLng(lat, lng), 1256, photo);
     }
 
 }

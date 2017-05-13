@@ -14,8 +14,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class App extends Application{
 
-    private static final String BASE_URL = "http://e9662d37.ngrok.io";
-    private static final String PLACES_BASE_URL = "https://maps.googleapis.com";
+    public static final String BASE_URL = "http://e9662d37.ngrok.io";
+    public static final String PLACES_BASE_URL = "https://maps.googleapis.com";
 
     private static PlacesApi placesApi;
 

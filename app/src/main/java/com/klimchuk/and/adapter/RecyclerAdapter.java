@@ -5,11 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.klimchuk.and.App;
 import com.klimchuk.and.R;
 import com.klimchuk.and.data.InstaPost;
 import com.klimchuk.and.data.Place;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -71,6 +74,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             header.tvAddress.setText(mPlace.getAddress());
             header.tvName.setText(mPlace.getName());
             header.tvPostsCount.setText(String.valueOf(mPlace.getPostsCount()));
+
+            if (mPlace.getPhotoReference() != null) {
+                header.ivPlacePhoto.setVisibility(View.VISIBLE);
+                Picasso.with(mContext)
+                        .load(App.PLACES_BASE_URL + "/maps/api/place/photo?maxwidth=600&photoreference="
+                                + mPlace.getPhotoReference()
+                                + "&key=" + mContext.getString(R.string.google_api_key))
+                        .into(header.ivPlacePhoto);
+            }
         }
     }
 
@@ -125,10 +137,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @BindView(R.id.tv_place_name)
         TextView tvName;
+
         @BindView(R.id.tv_address)
         TextView tvAddress;
+
         @BindView(R.id.tv_posts_count)
         TextView tvPostsCount;
+
+        @BindView(R.id.iv_place_photo)
+        ImageView ivPlacePhoto;
 
         ViewHolderHeader(View itemView) {
             super(itemView);

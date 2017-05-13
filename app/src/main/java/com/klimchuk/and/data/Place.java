@@ -14,13 +14,24 @@ public class Place {
 
     private LatLng latLng;
 
+    private String photoReference;
+
     private int postsCount;
 
-    public Place(String name, String address, LatLng latLng, int postsCount) {
+    public Place(String name, String address, LatLng latLng, int postsCount, String photoReference) {
         this.name = name;
         this.address = address;
         this.latLng = latLng;
         this.postsCount = postsCount;
+        this.photoReference = photoReference;
+    }
+
+    public String getPhotoReference() {
+        return photoReference;
+    }
+
+    public void setPhotoReference(String photoReference) {
+        this.photoReference = photoReference;
     }
 
     public String getName() {

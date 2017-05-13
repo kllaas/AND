@@ -72,7 +72,7 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
             map = mapboxMap;
 
             mPresenter = new MapsPresenter(this);
-            map.setOnMarkerClickListener(mPresenter.getOnMarkerClick());
+            map.getMarkerViewManager().setOnMarkerViewClickListener(mPresenter.getOnMarkerClick());
         });
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());

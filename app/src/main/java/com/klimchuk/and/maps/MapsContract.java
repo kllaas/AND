@@ -25,7 +25,7 @@ public interface MapsContract {
 
     interface Presenter {
 
-        MapboxMap.OnMarkerClickListener getOnMarkerClick();
+        MapboxMap.OnMarkerViewClickListener getOnMarkerClick();
 
         void onSearch();
     }
