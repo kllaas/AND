@@ -4,4 +4,7 @@
     <dimen name="search_bar_height">58dp</dimen>
     <dimen name="small_margin">8dp</dimen>
     <dimen name="sliding_bar_margin_top">72dp</dimen>
+    <dimen name="large_margin">24dp</dimen>
+    <dimen name="large_text_size">24sp</dimen>
+    <dimen name="medium_text_size">16sp</dimen>
 </resources>

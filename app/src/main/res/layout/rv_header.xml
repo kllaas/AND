@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/medium_margin"
+    android:paddingTop="@dimen/large_margin">
+
+    <TextView
+        android:id="@+id/tv_place_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="ZEO Alliance"
+        android:textColor="@color/colorTextDark"
+        android:textSize="@dimen/large_text_size" />
+
+    <ImageView
+        android:id="@+id/icon_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_place_name"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:src="@drawable/ic_place_black_24dp"
+        android:tint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/icon_place"
+        android:layout_toEndOf="@+id/icon_place"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="бульвар Вацлава Гавела, 6з, Київ, 03067"
+        android:textColor="@color/colorTextDark"
+        android:textSize="@dimen/medium_text_size" />
+
+    <ImageView
+        android:id="@+id/icon_insta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_address"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:src="@drawable/ic_place_black_24dp"
+        android:tint="@color/colorPrimary" />
+
+
+    <TextView
+        android:id="@+id/tv_posts_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/icon_insta"
+        android:layout_toEndOf="@+id/icon_insta"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="1352 posts"
+        android:textColor="@color/colorTextDark"
+        android:textSize="@dimen/medium_text_size" />
+</RelativeLayout>

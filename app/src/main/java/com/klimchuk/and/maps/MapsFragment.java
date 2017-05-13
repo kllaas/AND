@@ -1,5 +1,6 @@
 package com.klimchuk.and.maps;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,9 +11,12 @@ import android.view.ViewGroup;
 
 import com.klimchuk.and.R;
 import com.klimchuk.and.search.ISearch;
+import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,17 +54,38 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.maps_fragment, container, false);
 
+        configureViews(savedInstanceState, view);
+
+        return view;
+    }
+
+    private void configureViews(Bundle savedInstanceState, View view) {
         ButterKnife.bind(this, view);
-
         mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(mapboxMap -> {
-
-            map = mapboxMap;
-        });
 
         mSlidingLayout.setAnchorPoint(0.5f);
 
-        return view;
+        mapView.getMapAsync(mapboxMap -> {
+
+            map = mapboxMap;
+
+            mPresenter = new MapsPresenter(this);
+            map.setOnMarkerClickListener(mPresenter.getOnMarkerClick());
+        });
+    }
+
+
+    @Override
+    public void showMarkers(List<MarkerViewOptions> markers) {
+        for (MarkerViewOptions marker : markers) {
+
+            map.addMarker(marker);
+        }
+    }
+
+    @Override
+    public Context getActivityContext() {
+        return getContext();
     }
 
     @Override
@@ -109,5 +134,4 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
     }
-
 }
