@@ -133,6 +133,9 @@ public class ANDApiLoader {
             float lat = Float.parseFloat(item.getString("latitude"));
             float lng = Float.parseFloat(item.getString("longitude"));
 
+            if (Math.abs(lat - 30) < 5)
+                System.out.println(id);
+
             places.add(new Place(id, name, new LatLng(lat, lng)));
         }
 

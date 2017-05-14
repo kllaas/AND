@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.klimchuk.and.R;
 import com.klimchuk.and.activity.MainActivity;
@@ -17,7 +19,9 @@ import com.klimchuk.and.adapter.RecyclerAdapter;
 import com.klimchuk.and.data.Place;
 import com.klimchuk.and.data.source.StaticDataCache;
 import com.klimchuk.and.search.ISearch;
+import com.klimchuk.and.search_directions.DirectionsFragment;
 import com.klimchuk.and.search_directions.IDirections;
+import com.klimchuk.and.utils.FragmentHelper;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.annotations.PolylineOptions;
@@ -34,6 +38,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by alexey on 13.05.17.
@@ -50,7 +55,14 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     RecyclerView mRecyclerView;
     @BindView(R.id.drag_view)
     View dragView;
+    @BindView(R.id.ic_pick_location)
+    ImageView locationPicker;
+
+    @BindView(R.id.btn_choose_place)
+    Button btnChoosePlace;
+
     private IMaps.ShowToolbarCallback mShowToolbarCallback;
+
     private MapboxMap mMap;
 
     private RecyclerView.LayoutManager mLayoutManager;
@@ -152,7 +164,7 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
             }
 
             LatLngBounds bounds = builder.build();
-            int padding = 100; // offset from edges of the mMap in pixels
+            int padding = 0; // offset from edges of the mMap in pixels
 
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             mMap.animateCamera(cu);
@@ -243,6 +255,11 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
         mapView.onSaveInstanceState(outState);
     }
 
+    @OnClick(R.id.btn_choose_place)
+    public void choosePlace() {
+        ((DirectionsFragment) FragmentHelper.getByTag(FragmentHelper.DIRECTION_FRAGMENT)).chooseLocation();
+    }
+
     @Override
     public void onCloseClick() {
         mRecyclerView.smoothScrollToPosition(0);
@@ -251,9 +268,24 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
 
     @Override
     public void onDirectionsSearch(LatLng[] points) {
-        mMap.addPolyline(new PolylineOptions()
+        Thread th = new Thread(() -> mMap.addPolyline(new PolylineOptions()
                 .add(points)
-                .color(Color.parseColor("#009688"))
-                .width(5));
+                .color(Color.parseColor("#4cd93f"))
+                .width(500)));
+        th.start();
+    }
+
+    public void searchLocation() {
+        locationPicker.setVisibility(View.VISIBLE);
+        btnChoosePlace.setVisibility(View.VISIBLE);
+    }
+
+    public void removePickerVisibility() {
+        locationPicker.setVisibility(View.GONE);
+        btnChoosePlace.setVisibility(View.GONE);
+    }
+
+    public LatLng getPosition() {
+        return mMap.getCameraPosition().target;
     }
 }

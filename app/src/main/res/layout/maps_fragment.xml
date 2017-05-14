@@ -18,7 +18,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        mapbox:mapbox_styleUrl="mapbox://styles/piekie/cj2kpnv9b002h2srs7d45c8nv" />
+        mapbox:mapbox_styleUrl="mapbox://styles/piekie/cj2kpnv9b002h2srs7d45c8nv">
+
+        <ImageView
+            android:id="@+id/ic_pick_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_place_black_24dp"
+            android:tint="@color/colorAccent"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_choose_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Pick loaction"
+            android:textColor="@color/colorWhite"
+            android:visibility="gone" />
+
+    </com.mapbox.mapboxsdk.maps.MapView>
 
     <include
         android:id="@+id/drag_view"

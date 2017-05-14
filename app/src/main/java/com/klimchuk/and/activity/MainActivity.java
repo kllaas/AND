@@ -1,12 +1,9 @@
 package com.klimchuk.and.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.klimchuk.and.R;
 import com.klimchuk.and.data.Place;
 import com.klimchuk.and.maps.IMaps;
@@ -16,7 +13,6 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.util.List;
 
-import static com.klimchuk.and.search_directions.DirectionsFragment.PLACE_PICKER_REQUEST;
 
 public class MainActivity extends AppCompatActivity implements ISearch.SearchCallback,
         MainContract.View, ISearch.ClosePlaceCallback,
@@ -46,16 +42,6 @@ public class MainActivity extends AppCompatActivity implements ISearch.SearchCal
     public void onBackPressed() {
         super.onBackPressed();
         mPresenter.onBackPressed();
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_PICKER_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                com.google.android.gms.location.places.Place place = PlacePicker.getPlace(data, this);
-                String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
     @Override

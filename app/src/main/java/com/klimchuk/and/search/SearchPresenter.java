@@ -54,6 +54,8 @@ public class SearchPresenter implements SearchContract.Presenter {
                 @Override
                 public void onPlaceLoaded(List<Place> places) {
                     if (places != null && places.size() != 0) {
+
+                        Toast.makeText(mView.getAppContext(), "Place size: " + places.size(), Toast.LENGTH_SHORT);
                         for (Place place : places) {
                             place.setLatLng(new LatLng(place.getLongitude(), place.getLongitude()));
                         }

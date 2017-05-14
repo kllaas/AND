@@ -1,9 +1,9 @@
 package com.klimchuk.and.utils;
 
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by alexey on 14.05.17.
@@ -15,7 +15,7 @@ public class FragmentHelper {
     public static String SEARCH_FRAGMENT = "search";
     public static String DIRECTION_FRAGMENT = "route";
 
-    public static List<Fragment> fragments = new ArrayList<>();
+    public static ArrayList<Fragment> fragments = new ArrayList<>();
 
     public static Fragment getByTag(String tag) {
         for (Fragment fragment : fragments) {
@@ -26,4 +26,14 @@ public class FragmentHelper {
         return null;
     }
 
+    public static void removeFragment(AppCompatActivity activity, String directionFragment) {
+        Fragment fragment = getByTag(directionFragment);
+
+        (activity.getSupportFragmentManager())
+                .beginTransaction()
+                .remove(fragment)
+                .commit();
+
+        fragments.remove(fragment);
+    }
 }
