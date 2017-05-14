@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,7 +37,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private final Context mContext;
 
-    private List<InstaPost> mItems;
+    private List<InstaPost> mItems = new ArrayList<>();
 
     private Place mPlace;
 

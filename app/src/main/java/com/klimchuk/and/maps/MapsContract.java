@@ -20,11 +20,15 @@ public interface MapsContract {
 
         void showMarkers(List<MarkerViewOptions> markers);
 
+        void moveToBounds(List<Marker> p);
+
         Context getActivityContext();
 
         void showPlace(RecyclerAdapter recyclerAdapter);
 
         List<Marker> getMarkers();
+
+        void clearMarkers();
     }
 
     interface Presenter {

@@ -33,7 +33,6 @@ public class ANDApiLoader {
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 try {
 
-                    System.out.println(response.body().toString());
                     callback.onPlaceLoaded(parsePlaces(response.body().toString()));
 
                 } catch (JSONException e) {
@@ -49,22 +48,6 @@ public class ANDApiLoader {
     }
 
     public static void getAllTags(LoadingCallback<List<Tag>> callback) throws IOException {
-        Call<List<Tag>> call = App.getAndApi().getAllTags();
-
-        call.enqueue(new Callback<List<Tag>>() {
-            @Override
-            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
-                callback.onPlaceLoaded(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<Tag>> call, Throwable t) {
-                callback.onLoadingFailed();
-            }
-        });
-    }
-
-    public static void getAll(LoadingCallback<List<Tag>> callback) throws IOException {
         Call<List<Tag>> call = App.getAndApi().getAllTags();
 
         call.enqueue(new Callback<List<Tag>>() {

@@ -16,6 +16,9 @@ import com.klimchuk.and.data.Place;
 import com.klimchuk.and.search.ISearch;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
+import com.mapbox.mapboxsdk.camera.CameraUpdate;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -40,7 +43,7 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
-    private MapboxMap map;
+    private MapboxMap mMap;
 
     private MapsContract.Presenter mPresenter;
 
@@ -71,10 +74,9 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
 
         mapView.getMapAsync(mapboxMap -> {
 
-            map = mapboxMap;
+            mMap = mapboxMap;
 
             mPresenter = new MapsPresenter(this);
-            map.getMarkerViewManager().setOnMarkerViewClickListener(mPresenter.getOnMarkerClick());
         });
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -87,8 +89,25 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
 
         for (MarkerViewOptions marker : markers) {
 
-            map.addMarker(marker);
+            mMap.addMarker(marker);
         }
+
+        mMap.getMarkerViewManager().setOnMarkerViewClickListener(mPresenter.getOnMarkerClick());
+    }
+
+    @Override
+    public void moveToBounds(List<Marker> p) {
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (int i = 0; i < p.size(); i++) {
+            builder.include(p.get(i).getPosition());
+        }
+
+        LatLngBounds bounds = builder.build();
+        int padding = 0; // offset from edges of the mMap in pixels
+
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        mMap.animateCamera(cu);
     }
 
     @Override
@@ -103,7 +122,12 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
 
     @Override
     public List<Marker> getMarkers() {
-        return map.getMarkers();
+        return mMap.getMarkers();
+    }
+
+    @Override
+    public void clearMarkers() {
+        mMap.clear();
     }
 
     @Override

@@ -26,8 +26,6 @@ public class MainPresenter implements MainContract.Presenter {
 
         showMapsFragment();
         showSearchFragment();
-
-
     }
 
     private void showMapsFragment() {

@@ -12,8 +12,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ISearch.SearchCallback, MainContract.View {
 
-    ISearch.SearchCallback onSearch;
-
     private MainContract.Presenter mPresenter;
 
     @Override
@@ -23,8 +21,6 @@ public class MainActivity extends AppCompatActivity implements ISearch.SearchCal
 
         mPresenter = new MainPresenter(this);
     }
-
-
 
     @Override
     public void onSearch(List<Place> places) {

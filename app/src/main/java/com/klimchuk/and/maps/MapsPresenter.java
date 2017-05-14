@@ -42,20 +42,7 @@ public class MapsPresenter implements Presenter {
         ANDApiLoader.getAllPlaces(new LoadingCallback<List<Place>>() {
             @Override
             public void onPlaceLoaded(List<Place> places) {
-                ArrayList<MarkerViewOptions> markers = new ArrayList<>();
-
-                for (Place place : places) {
-                    MarkerViewOptions marker = new MarkerViewOptions()
-                            .position(place.getLatLng());
-
-                    markers.add(marker);
-                }
-
-                mView.showMarkers(markers);
-
-                for (int i = 0; i < mView.getMarkers().size(); i++) {
-                    mPlaces.put(mView.getMarkers().get(i).getId(), places.get(i));
-                }
+                configureMarkers(places);
             }
 
             @Override
@@ -63,6 +50,28 @@ public class MapsPresenter implements Presenter {
 
             }
         });
+    }
+
+    private void configureMarkers(List<Place> places) {
+        mView.clearMarkers();
+        mPlaces = new HashMap<>();
+
+        ArrayList<MarkerViewOptions> markers = new ArrayList<>();
+
+        for (Place place : places) {
+            MarkerViewOptions marker = new MarkerViewOptions()
+                    .position(place.getLatLng());
+
+            markers.add(marker);
+        }
+
+        mView.showMarkers(markers);
+
+        for (int i = 0; i < mView.getMarkers().size(); i++) {
+            mPlaces.put(mView.getMarkers().get(i).getId(), places.get(i));
+        }
+
+        mView.moveToBounds(mView.getMarkers());
     }
 
     @Override
@@ -100,6 +109,6 @@ public class MapsPresenter implements Presenter {
 
     @Override
     public void onSearch(List<Place> places) {
-
+        configureMarkers(places);
     }
 }
