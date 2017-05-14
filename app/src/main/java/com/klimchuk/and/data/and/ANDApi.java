@@ -1,10 +1,10 @@
 package com.klimchuk.and.data.and;
 
-import android.nfc.Tag;
 
 import com.google.gson.JsonArray;
 import com.klimchuk.and.data.InstaPost;
 import com.klimchuk.and.data.Place;
+import com.klimchuk.and.data.Tag;
 
 import java.util.List;
 

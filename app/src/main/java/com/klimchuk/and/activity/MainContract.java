@@ -23,6 +23,10 @@ public interface MainContract  {
         void onSearch(List<Place> places);
 
         void onBackPressed();
+
+        void onClosePlaceClick();
+
+        void setToolbarVisibility(int visibility);
     }
 
 }

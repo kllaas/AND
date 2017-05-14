@@ -1,12 +1,13 @@
 package com.klimchuk.and.data.and;
 
-import android.nfc.Tag;
 
 import com.google.gson.JsonArray;
 import com.klimchuk.and.App;
 import com.klimchuk.and.data.InstaPost;
 import com.klimchuk.and.data.LoadingCallback;
 import com.klimchuk.and.data.Place;
+import com.klimchuk.and.data.Tag;
+import com.klimchuk.and.data.source.StaticDataCache;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import org.json.JSONArray;
@@ -33,7 +34,8 @@ public class ANDApiLoader {
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 try {
 
-                    callback.onPlaceLoaded(parsePlaces(response.body().toString()));
+                    StaticDataCache.places = parsePlaces(response.body().toString());
+                    callback.onPlaceLoaded(StaticDataCache.places);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -62,7 +64,6 @@ public class ANDApiLoader {
             }
         });
     }
-
     public static void getPostsByLocation(String locationId, LoadingCallback<List<InstaPost>> callback) throws IOException {
         Call<List<InstaPost>> call = App.getAndApi().getPostsFromLocation(locationId);
 

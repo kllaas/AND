@@ -4,7 +4,9 @@ import android.widget.Toast;
 
 import com.klimchuk.and.data.LoadingCallback;
 import com.klimchuk.and.data.Place;
+import com.klimchuk.and.data.Tag;
 import com.klimchuk.and.data.and.ANDApiLoader;
+import com.klimchuk.and.data.source.StaticDataCache;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.io.IOException;
@@ -20,6 +22,28 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     SearchPresenter(SearchContract.View view) {
         mView = view;
+
+        try {
+
+            loadTags();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadTags() throws IOException {
+        ANDApiLoader.getAllTags(new LoadingCallback<List<Tag>>() {
+            @Override
+            public void onPlaceLoaded(List<Tag> tags) {
+                StaticDataCache.tags = tags;
+                mView.setAdapter(StaticDataCache.getTagsStringArray());
+            }
+
+            @Override
+            public void onLoadingFailed() {
+            }
+        });
     }
 
     @Override

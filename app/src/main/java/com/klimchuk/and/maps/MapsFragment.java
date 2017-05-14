@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.klimchuk.and.R;
+import com.klimchuk.and.activity.MainActivity;
 import com.klimchuk.and.adapter.RecyclerAdapter;
 import com.klimchuk.and.data.Place;
+import com.klimchuk.and.data.source.StaticDataCache;
 import com.klimchuk.and.search.ISearch;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
@@ -32,18 +34,21 @@ import butterknife.ButterKnife;
  * Created by alexey on 13.05.17.
  */
 
-public class MapsFragment extends Fragment implements MapsContract.View, ISearch.SearchCallback {
+public class MapsFragment extends Fragment implements MapsContract.View, ISearch.SearchCallback, ISearch.ClosePlaceCallback {
 
+    private static final int VERTICAL_ITEM_SPACE = 48;
     @BindView(R.id.map_view)
     MapView mapView;
-
     @BindView(R.id.sliding_layout)
     SlidingUpPanelLayout mSlidingLayout;
-
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-
+    @BindView(R.id.drag_view)
+    View dragView;
+    private IMaps.ShowToolbarCallback mShowToolbarCallback;
     private MapboxMap mMap;
+
+    private RecyclerView.LayoutManager mLayoutManager;
 
     private MapsContract.Presenter mPresenter;
 
@@ -63,6 +68,8 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
 
         configureViews(savedInstanceState, view);
 
+        mShowToolbarCallback = ((MainActivity) getActivity());
+
         return view;
     }
 
@@ -71,16 +78,48 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
         mapView.onCreate(savedInstanceState);
 
         mSlidingLayout.setAnchorPoint(0.5f);
+        mSlidingLayout.setPanelHeight(0);
 
+        mapView.setStyleUrl("mapbox://styles/piekie/cj2kpnv9b002h2srs7d45c8nv");
         mapView.getMapAsync(mapboxMap -> {
 
             mMap = mapboxMap;
 
+            mMap.setOnCameraChangeListener(pos -> {
+                if (pos.zoom > 15) {
+                    if (mapboxMap.getMarkers().size() == 0)
+                        mPresenter.configureMarkers(StaticDataCache.places, false);
+                } else
+                    mMap.clear();
+            });
             mPresenter = new MapsPresenter(this);
         });
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mSlidingLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View view, float v) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                switch (newState) {
+                    case EXPANDED:
+                        mShowToolbarCallback.setToolbarVisibility(View.VISIBLE);
+                        break;
+                    case ANCHORED:
+                        mShowToolbarCallback.setToolbarVisibility(View.GONE);
+                        break;
+                    case COLLAPSED:
+                        mShowToolbarCallback.setToolbarVisibility(View.GONE);
+                        break;
+                }
+            }
+
+        });
     }
 
 
@@ -96,15 +135,18 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     }
 
     @Override
-    public void moveToBounds(List<Marker> p) {
+    public void moveToBounds(List<Marker> list) {
+
+        if (list.size() == 0)
+            return;
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (int i = 0; i < p.size(); i++) {
-            builder.include(p.get(i).getPosition());
+        for (int i = 0; i < list.size(); i++) {
+            builder.include(list.get(i).getPosition());
         }
 
         LatLngBounds bounds = builder.build();
-        int padding = 0; // offset from edges of the mMap in pixels
+        int padding = 100; // offset from edges of the mMap in pixels
 
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         mMap.animateCamera(cu);
@@ -128,6 +170,11 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     @Override
     public void clearMarkers() {
         mMap.clear();
+    }
+
+    @Override
+    public void setSlidingViewVisibility(boolean visibility) {
+        mSlidingLayout.setPanelHeight((int) getResources().getDimension(R.dimen.panel_height));
     }
 
     @Override
@@ -175,5 +222,11 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onCloseClick() {
+        mRecyclerView.smoothScrollToPosition(0);
+        mSlidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 }

@@ -7,11 +7,12 @@ import com.google.gson.annotations.SerializedName;
  * Created by alexey on 14.05.17.
  */
 
-class Tag {
+public class Tag {
 
     @SerializedName("id")
     @Expose
     private Integer id;
+
     @SerializedName("text")
     @Expose
     private String text;

@@ -17,6 +17,9 @@ public interface SearchContract {
         Context getAppContext();
 
         void onSearch(List<Place> place);
+
+        void setAdapter(String[] tagsStringArray);
+
     }
 
     interface Presenter {

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.klimchuk.and.R;
 import com.klimchuk.and.data.Place;
+import com.klimchuk.and.maps.IMaps;
 import com.klimchuk.and.maps.MapsFragment;
 import com.klimchuk.and.search.ISearch;
 import com.klimchuk.and.search.SearchFragment;
@@ -21,6 +22,10 @@ public class MainPresenter implements MainContract.Presenter {
 
     private BackPressedCallback mBackCallback;
 
+    private ISearch.ClosePlaceCallback mCloseCallback;
+
+    private IMaps.ShowToolbarCallback mToolbarCallback;
+
     private MainContract.View mView;
 
     MainPresenter(MainContract.View view) {
@@ -36,6 +41,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         MapsFragment fragment = MapsFragment.newInstance();
         mSearchCallback = fragment;
+        mCloseCallback = fragment;
 
         ft.add(R.id.maps_container, fragment);
         ft.commit();
@@ -47,6 +53,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         SearchFragment fragment = SearchFragment.newInstance();
         mBackCallback = fragment;
+        mToolbarCallback = fragment;
 
         ft.add(R.id.search_container, fragment);
         ft.commit();
@@ -61,4 +68,16 @@ public class MainPresenter implements MainContract.Presenter {
     public void onBackPressed() {
         mBackCallback.onBackPressed();
     }
+
+    @Override
+    public void onClosePlaceClick() {
+        mCloseCallback.onCloseClick();
+    }
+
+    @Override
+    public void setToolbarVisibility(int visibility) {
+        mToolbarCallback.setToolbarVisibility(visibility);
+    }
+
+
 }

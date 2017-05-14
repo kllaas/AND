@@ -16,4 +16,10 @@ public interface ISearch {
 
     }
 
+    interface ClosePlaceCallback {
+
+        void onCloseClick();
+
+    }
+
 }

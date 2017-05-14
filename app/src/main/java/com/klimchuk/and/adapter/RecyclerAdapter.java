@@ -19,7 +19,9 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -74,7 +76,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof ViewHolderItem) {
 
             ViewHolderItem item = (ViewHolderItem) holder;
-            InstaPost post = mItems.get(position);
+            InstaPost post = mItems.get(position - 1);
 
             Picasso.with(mContext)
                     .load(post.getUrl())
@@ -83,6 +85,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Picasso.with(mContext)
                     .load(post.getProfilePicture())
                     .into(item.ivUserPhoto);
+
+            item.tvDate.setText((new SimpleDateFormat("yyyy.MM.dd")).format(new Date(Integer.valueOf(post.getCreatedTime()))));
 
             item.tvLikes.setText(post.getLikes() + " likes");
             item.tvName.setText(post.getProfileUsername());
@@ -100,12 +104,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         header.tvName.setText(place.getName());
                         header.tvPostsCount.setText(String.valueOf(mPlace.getPostsCount()) + " posts");
 
-                        if (mPlace.getPhotoReference() != null) {
+                        if (place.getPhotoReference() != null) {
                             header.ivPlacePhoto.setVisibility(View.VISIBLE);
 
                             Picasso.with(mContext)
                                     .load(App.PLACES_BASE_URL + "/maps/api/place/photo?maxwidth=600&photoreference="
-                                            + mPlace.getPhotoReference()
+                                            + place.getPhotoReference()
                                             + "&key=" + mContext.getString(R.string.google_api_key))
                                     .into(header.ivPlacePhoto);
                         }
@@ -158,6 +162,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @BindView(R.id.tv_likes)
         TextView tvLikes;
+
+        @BindView(R.id.tv_date)
+        TextView tvDate;
 
         View root;
 

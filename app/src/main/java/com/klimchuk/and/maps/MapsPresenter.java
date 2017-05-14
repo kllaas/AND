@@ -42,7 +42,7 @@ public class MapsPresenter implements Presenter {
         ANDApiLoader.getAllPlaces(new LoadingCallback<List<Place>>() {
             @Override
             public void onPlaceLoaded(List<Place> places) {
-                configureMarkers(places);
+                configureMarkers(places, true);
             }
 
             @Override
@@ -52,8 +52,10 @@ public class MapsPresenter implements Presenter {
         });
     }
 
-    private void configureMarkers(List<Place> places) {
-        mView.clearMarkers();
+    @Override
+    public void configureMarkers(List<Place> places, boolean shouldMove) {
+        if (shouldMove)
+            mView.clearMarkers();
         mPlaces = new HashMap<>();
 
         ArrayList<MarkerViewOptions> markers = new ArrayList<>();
@@ -71,13 +73,17 @@ public class MapsPresenter implements Presenter {
             mPlaces.put(mView.getMarkers().get(i).getId(), places.get(i));
         }
 
-        mView.moveToBounds(mView.getMarkers());
+        if (shouldMove)
+            mView.moveToBounds(mView.getMarkers());
     }
 
     @Override
     public MapboxMap.OnMarkerViewClickListener getOnMarkerClick() {
         return (marker, view, adapter) -> {
+
             loadInstaPosts(marker);
+            mView.setSlidingViewVisibility(true);
+
             return false;
         };
     }
@@ -109,6 +115,6 @@ public class MapsPresenter implements Presenter {
 
     @Override
     public void onSearch(List<Place> places) {
-        configureMarkers(places);
+        configureMarkers(places, true);
     }
 }

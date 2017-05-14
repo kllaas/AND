@@ -29,9 +29,13 @@ public interface MapsContract {
         List<Marker> getMarkers();
 
         void clearMarkers();
+
+        void setSlidingViewVisibility(boolean visibility);
     }
 
     interface Presenter {
+
+        void configureMarkers(List<Place> places, boolean shouldMove);
 
         MapboxMap.OnMarkerViewClickListener getOnMarkerClick();
 
