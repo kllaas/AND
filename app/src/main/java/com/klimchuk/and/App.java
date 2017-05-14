@@ -2,6 +2,8 @@ package com.klimchuk.and;
 
 import android.app.Application;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.klimchuk.and.data.and.ANDApi;
@@ -26,6 +28,8 @@ public class App extends Application {
 
     private static ANDApi andApi;
 
+    private GoogleApiClient mGoogleApiClient;
+
     public static PlacesApi getPlacesApi() {
         return placesApi;
     }
@@ -39,7 +43,11 @@ public class App extends Application {
         super.onCreate();
 
         Mapbox.getInstance(this, "pk.eyJ1IjoicGlla2llIiwiYSI6ImNqMm4wZHh5YjAwMjMzM3BhMHNwdWo4aXYifQ.g4Z2AZ6Mvnq59QkJniZ69A");
-
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .build();
 
         placesApi = getPlacesRetrofitInstance().create(PlacesApi.class);
 

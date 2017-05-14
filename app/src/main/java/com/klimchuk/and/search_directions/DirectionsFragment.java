@@ -7,11 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.klimchuk.and.R;
+import com.klimchuk.and.activity.MainActivity;
 import com.klimchuk.and.domain.Route;
-import com.klimchuk.and.maps.MapsFragment;
-import com.mapbox.mapboxsdk.annotations.PolylineOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.services.Constants;
 import com.mapbox.services.commons.geojson.LineString;
@@ -19,7 +22,9 @@ import com.mapbox.services.commons.models.Position;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by alexey on 13.05.17.
@@ -27,7 +32,14 @@ import butterknife.ButterKnife;
 
 public class DirectionsFragment extends Fragment implements DirectionsContract.View {
 
+    public static final int PLACE_PICKER_REQUEST = 1;
+
+    @BindView(R.id.et_from)
+    EditText etFrom;
+    @BindView(R.id.et_destination)
+    EditText etDestination;
     private DirectionsContract.Presenter mPresenter;
+    private IDirections.DirectionsCallback mDirectionsCallback;
 
     public static DirectionsFragment newInstance() {
 
@@ -36,6 +48,23 @@ public class DirectionsFragment extends Fragment implements DirectionsContract.V
         DirectionsFragment fragment = new DirectionsFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @OnClick(R.id.et_from)
+    public void onFromClick(View v) {
+
+    }
+
+    @OnClick(R.id.et_destination)
+    public void onDestClick(View v) {
+        try {
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+            startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+
+        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
     }
 
     @Nullable
@@ -47,8 +76,11 @@ public class DirectionsFragment extends Fragment implements DirectionsContract.V
 
         mPresenter = new DirectionsPresenter(this);
 
+        mDirectionsCallback = ((MainActivity) getActivity());
+
         return view;
     }
+
 
     @Override
     public Context getAppContext() {
@@ -68,10 +100,6 @@ public class DirectionsFragment extends Fragment implements DirectionsContract.V
                     coordinates.get(i).getLongitude());
         }
 
-        // Draw Points on MapView
-//        map.addPolyline(new PolylineOptions()
-//                .add(points)
-//                .color(Color.parseColor("#009688"))
-//                .width(5));
+        mDirectionsCallback.onDirectionsSearch(points);
     }
 }

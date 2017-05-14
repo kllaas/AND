@@ -56,7 +56,8 @@ public class ANDApiLoader {
         call.enqueue(new Callback<List<Tag>>() {
             @Override
             public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
-                callback.onPlaceLoaded(response.body());
+                if (response.body() != null)
+                    callback.onPlaceLoaded(response.body());
             }
 
             @Override
@@ -65,6 +66,7 @@ public class ANDApiLoader {
             }
         });
     }
+
     public static void getPostsByLocation(String locationId, LoadingCallback<List<InstaPost>> callback) throws IOException {
         Call<List<InstaPost>> call = App.getAndApi().getPostsFromLocation(locationId);
 
@@ -98,7 +100,7 @@ public class ANDApiLoader {
     }
 
     public static void getRoute(String lat1, String lng1,
-                                 String lat2, String lng2, LoadingCallback<Route> callback) throws JSONException {
+                                String lat2, String lng2, LoadingCallback<Route> callback) throws JSONException {
 
         Call<Route> call = App.getAndApi().getRoute(lat1, lng1, lat2, lng2);
 

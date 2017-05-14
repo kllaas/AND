@@ -3,6 +3,7 @@ package com.klimchuk.and.activity;
 import android.content.Context;
 
 import com.klimchuk.and.data.Place;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.util.List;
 
@@ -29,6 +30,8 @@ public interface MainContract  {
         void setToolbarVisibility(int visibility);
 
         void showDirectionsFragment();
+
+        void onDirectionsSearch(LatLng[] points);
     }
 
 }

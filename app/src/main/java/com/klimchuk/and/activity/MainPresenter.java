@@ -10,8 +10,15 @@ import com.klimchuk.and.maps.MapsFragment;
 import com.klimchuk.and.search.ISearch;
 import com.klimchuk.and.search.SearchFragment;
 import com.klimchuk.and.search_directions.DirectionsFragment;
+import com.klimchuk.and.search_directions.IDirections;
+import com.klimchuk.and.utils.FragmentHelper;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.util.List;
+
+import static com.klimchuk.and.utils.FragmentHelper.DIRECTION_FRAGMENT;
+import static com.klimchuk.and.utils.FragmentHelper.MAPS_FRAGMENT;
+import static com.klimchuk.and.utils.FragmentHelper.SEARCH_FRAGMENT;
 
 /**
  * Created by alexey on 13.05.17.
@@ -27,6 +34,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     private IMaps.ShowToolbarCallback mToolbarCallback;
 
+    private IDirections.DirectionsCallback mDirectionsCallback;
+
     private MainContract.View mView;
 
     MainPresenter(MainContract.View view) {
@@ -37,26 +46,31 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     private void showMapsFragment() {
-        FragmentTransaction ft = ((AppCompatActivity)mView.getContext())
+        FragmentTransaction ft = ((AppCompatActivity) mView.getContext())
                 .getSupportFragmentManager().beginTransaction();
 
         MapsFragment fragment = MapsFragment.newInstance();
         mSearchCallback = fragment;
         mCloseCallback = fragment;
+        mDirectionsCallback = fragment;
 
-        ft.add(R.id.maps_container, fragment);
+        FragmentHelper.fragments.add(fragment);
+
+        ft.add(R.id.maps_container, fragment, MAPS_FRAGMENT);
         ft.commit();
     }
 
     private void showSearchFragment() {
-        FragmentTransaction ft = ((AppCompatActivity)mView.getContext())
+        FragmentTransaction ft = ((AppCompatActivity) mView.getContext())
                 .getSupportFragmentManager().beginTransaction();
 
         SearchFragment fragment = SearchFragment.newInstance();
         mBackCallback = fragment;
         mToolbarCallback = fragment;
 
-        ft.add(R.id.search_container, fragment);
+        FragmentHelper.fragments.add(fragment);
+
+        ft.add(R.id.search_container, fragment, SEARCH_FRAGMENT);
         ft.commit();
     }
 
@@ -87,8 +101,15 @@ public class MainPresenter implements MainContract.Presenter {
 
         DirectionsFragment fragment = DirectionsFragment.newInstance();
 
-        ft.add(R.id.search_container, fragment);
+        FragmentHelper.fragments.add(fragment);
+
+        ft.add(R.id.search_container, fragment, DIRECTION_FRAGMENT).setCustomAnimations(R.anim.slide_down_anim, R.anim.slide_up_anim);
         ft.commit();
+    }
+
+    @Override
+    public void onDirectionsSearch(LatLng[] points) {
+        mDirectionsCallback.onDirectionsSearch(points);
     }
 
 

@@ -26,8 +26,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.klimchuk.and.data.source.StaticDataCache.getTagsStringArray;
-
 /**
  * Created by alexey on 13.05.17.
  */
@@ -89,9 +87,9 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bac
         mPresenter.startSearch(editText.getText().toString());
     }
 
-    @OnClick(R.id.btn_search)
+    @OnClick(R.id.btn_direction)
     public void onDirections(View v) {
-        mPresenter.startSearch(editText.getText().toString());
+        mShowDirectionsCallback.onDirectionsClick();
     }
 
     @OnClick(R.id.btn_close)
@@ -113,7 +111,7 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bac
     @Override
     public void setAdapter(String[] tagsStringArray) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_dropdown_item_1line, getTagsStringArray());
+                android.R.layout.simple_dropdown_item_1line, tagsStringArray);
         editText.setAdapter(adapter);
     }
 

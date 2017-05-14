@@ -1,6 +1,7 @@
 package com.klimchuk.and.maps;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,11 +17,14 @@ import com.klimchuk.and.adapter.RecyclerAdapter;
 import com.klimchuk.and.data.Place;
 import com.klimchuk.and.data.source.StaticDataCache;
 import com.klimchuk.and.search.ISearch;
+import com.klimchuk.and.search_directions.IDirections;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
+import com.mapbox.mapboxsdk.annotations.PolylineOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdate;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -35,7 +39,7 @@ import butterknife.ButterKnife;
  * Created by alexey on 13.05.17.
  */
 
-public class MapsFragment extends Fragment implements MapsContract.View, ISearch.SearchCallback, ISearch.ClosePlaceCallback {
+public class MapsFragment extends Fragment implements MapsContract.View, ISearch.SearchCallback, ISearch.ClosePlaceCallback, IDirections.DirectionsCallback {
 
     private static final int VERTICAL_ITEM_SPACE = 48;
     @BindView(R.id.map_view)
@@ -243,5 +247,13 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     public void onCloseClick() {
         mRecyclerView.smoothScrollToPosition(0);
         mSlidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    }
+
+    @Override
+    public void onDirectionsSearch(LatLng[] points) {
+        mMap.addPolyline(new PolylineOptions()
+                .add(points)
+                .color(Color.parseColor("#009688"))
+                .width(5));
     }
 }
