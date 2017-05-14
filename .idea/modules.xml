@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AND1.iml" filepath="$PROJECT_DIR$/AND1.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mote.iml" filepath="$PROJECT_DIR$/Mote.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

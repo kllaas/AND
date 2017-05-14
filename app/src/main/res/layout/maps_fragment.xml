@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        mapbox:mapbox_styleUrl="mapbox://styles/piekie/cj2kpnv9b002h2srs7d45c8nv">
+        mapbox:mapbox_styleUrl="mapbox://styles/piekie/cj2ojg7bz003d2smtpmfwtim5">
 
         <ImageView
             android:id="@+id/ic_pick_location"
