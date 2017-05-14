@@ -8,6 +8,7 @@ import com.klimchuk.and.data.LoadingCallback;
 import com.klimchuk.and.data.Place;
 import com.klimchuk.and.data.Tag;
 import com.klimchuk.and.data.source.StaticDataCache;
+import com.klimchuk.and.domain.Route;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import org.json.JSONArray;
@@ -91,6 +92,24 @@ public class ANDApiLoader {
 
             @Override
             public void onFailure(Call<List<Place>> call, Throwable t) {
+                callback.onLoadingFailed();
+            }
+        });
+    }
+
+    public static void getRoute(String lat1, String lng1,
+                                 String lat2, String lng2, LoadingCallback<Route> callback) throws JSONException {
+
+        Call<Route> call = App.getAndApi().getRoute(lat1, lng1, lat2, lng2);
+
+        call.enqueue(new Callback<Route>() {
+            @Override
+            public void onResponse(Call<Route> call, Response<Route> response) {
+                callback.onPlaceLoaded(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Route> call, Throwable t) {
                 callback.onLoadingFailed();
             }
         });

@@ -9,6 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.klimchuk.and.R;
+import com.klimchuk.and.domain.Route;
+import com.klimchuk.and.maps.MapsFragment;
+import com.mapbox.mapboxsdk.annotations.PolylineOptions;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.services.Constants;
+import com.mapbox.services.commons.geojson.LineString;
+import com.mapbox.services.commons.models.Position;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -44,5 +53,25 @@ public class DirectionsFragment extends Fragment implements DirectionsContract.V
     @Override
     public Context getAppContext() {
         return getContext();
+    }
+
+    @Override
+    public void showRoute(Route route) {
+        LineString lineString = LineString.fromPolyline(route.getGeometry(), Constants.OSRM_PRECISION_V5);
+
+        List<Position> coordinates = lineString.getCoordinates();
+        LatLng[] points = new LatLng[coordinates.size()];
+
+        for (int i = 0; i < coordinates.size(); i++) {
+            points[i] = new LatLng(
+                    coordinates.get(i).getLatitude(),
+                    coordinates.get(i).getLongitude());
+        }
+
+        // Draw Points on MapView
+//        map.addPolyline(new PolylineOptions()
+//                .add(points)
+//                .color(Color.parseColor("#009688"))
+//                .width(5));
     }
 }

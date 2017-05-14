@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.klimchuk.and.data.InstaPost;
 import com.klimchuk.and.data.Place;
 import com.klimchuk.and.data.Tag;
+import com.klimchuk.and.domain.Route;
 
 import java.util.List;
 
@@ -29,5 +30,11 @@ public interface ANDApi {
 
     @GET("/locations/{location_id}/posts")
     Call<List<InstaPost>> getPostsFromLocation(@Path("location_id") String locationId);
+
+    @GET("/directions/{lat1},{lng1};{lat2},{lng2}")
+    Call<Route> getRoute(@Path("lat1") String lat1,
+                         @Path("lng1") String lng1,
+                         @Path("lat2") String lat2,
+                         @Path("lng2") String lng2);
 
 }

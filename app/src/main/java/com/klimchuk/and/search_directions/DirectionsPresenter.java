@@ -3,6 +3,7 @@ package com.klimchuk.and.search_directions;
 import com.klimchuk.and.data.LoadingCallback;
 import com.klimchuk.and.data.Place;
 import com.klimchuk.and.data.and.ANDApiLoader;
+import com.klimchuk.and.domain.Route;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,12 +22,12 @@ public class DirectionsPresenter implements DirectionsContract.Presenter {
     }
 
     @Override
-    public void startSearch(String tag) {
+    public void startSearch(String lat1, String lng1, String lat2, String lng2) {
         try {
-            ANDApiLoader.getPlacesByTag(tag, new LoadingCallback<List<Place>>() {
+            ANDApiLoader.getRoute(lat1, lng1, lat2, lng2, new LoadingCallback<Route>() {
                 @Override
-                public void onPlaceLoaded(List<Place> places) {
-
+                public void onPlaceLoaded(Route route) {
+                    mView.showRoute(route);
                 }
 
                 @Override
@@ -34,8 +35,7 @@ public class DirectionsPresenter implements DirectionsContract.Presenter {
 
                 }
             });
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
