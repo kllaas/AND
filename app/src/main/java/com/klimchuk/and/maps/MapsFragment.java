@@ -24,7 +24,6 @@ import com.klimchuk.and.search_directions.IDirections;
 import com.klimchuk.and.utils.FragmentHelper;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
-import com.mapbox.mapboxsdk.annotations.PolygonOptions;
 import com.mapbox.mapboxsdk.annotations.PolylineOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdate;
@@ -35,7 +34,6 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,7 +47,7 @@ import butterknife.OnClick;
 public class MapsFragment extends Fragment implements MapsContract.View, ISearch.SearchCallback, ISearch.ClosePlaceCallback, IDirections.DirectionsCallback {
 
     private static final int VERTICAL_ITEM_SPACE = 48;
-    public static int ZOOM_THRESHOLD = 14;
+    public static float ZOOM_THRESHOLD = 14.5f;
     @BindView(R.id.map_view)
     MapView mapView;
     @BindView(R.id.sliding_layout)

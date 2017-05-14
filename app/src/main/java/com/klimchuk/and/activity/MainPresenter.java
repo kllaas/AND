@@ -103,7 +103,9 @@ public class MainPresenter implements MainContract.Presenter {
 
         FragmentHelper.fragments.add(fragment);
 
-        ft.add(R.id.search_container, fragment, DIRECTION_FRAGMENT).setCustomAnimations(R.anim.slide_down_anim, R.anim.slide_up_anim);
+        ft.setCustomAnimations(R.anim.slide_down_anim, R.anim.slide_up_anim,
+                R.anim.slide_down_anim, R.anim.slide_up_anim);
+        ft.add(R.id.search_container, fragment, DIRECTION_FRAGMENT);
         ft.commit();
     }
 

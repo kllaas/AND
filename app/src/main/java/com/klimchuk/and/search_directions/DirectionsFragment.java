@@ -66,6 +66,8 @@ public class DirectionsFragment extends Fragment implements DirectionsContract.V
 
     @OnClick(R.id.et_from)
     public void onFromClick(View v) {
+        System.out.println("fragment count: " + FragmentHelper.fragments.size());
+
         currentLocationChoose = true;
         etFrom.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLow));
         etDestination.setBackgroundColor(getResources().getColor(R.color.colorPrimary));

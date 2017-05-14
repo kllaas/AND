@@ -3,6 +3,8 @@ package com.klimchuk.and.utils;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import com.klimchuk.and.R;
+
 import java.util.ArrayList;
 
 /**
@@ -31,6 +33,8 @@ public class FragmentHelper {
 
         (activity.getSupportFragmentManager())
                 .beginTransaction()
+                .setCustomAnimations(R.anim.slide_down_anim, R.anim.slide_up_anim,
+                        R.anim.slide_down_anim, R.anim.slide_up_anim)
                 .remove(fragment)
                 .commit();
 
