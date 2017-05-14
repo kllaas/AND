@@ -42,6 +42,7 @@ public class SearchPresenter implements SearchContract.Presenter {
 
             @Override
             public void onLoadingFailed() {
+
             }
         });
     }
@@ -49,7 +50,6 @@ public class SearchPresenter implements SearchContract.Presenter {
     @Override
     public void startSearch(String tag) {
         try {
-
             ANDApiLoader.getPlacesByTag(tag, new LoadingCallback<List<Place>>() {
                 @Override
                 public void onPlaceLoaded(List<Place> places) {

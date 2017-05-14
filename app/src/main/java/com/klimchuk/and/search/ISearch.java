@@ -22,4 +22,10 @@ public interface ISearch {
 
     }
 
+    interface ShowDirectionsFragment {
+
+        void onDirectionsClick();
+
+    }
+
 }

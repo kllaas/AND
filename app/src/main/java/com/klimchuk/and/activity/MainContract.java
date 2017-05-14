@@ -27,6 +27,8 @@ public interface MainContract  {
         void onClosePlaceClick();
 
         void setToolbarVisibility(int visibility);
+
+        void showDirectionsFragment();
     }
 
 }

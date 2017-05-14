@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/search_bar_height">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/search_box"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/search_bar_height"
         android:layout_margin="4dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/shadow_card_search">
@@ -25,11 +25,22 @@
             android:id="@+id/btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_toStartOf="@+id/btn_direction"
+            android:background="@color/colorWhite"
+            android:src="@drawable/ic_search_black_32dp"
+            android:tint="@color/colorText" />
+
+        <ImageButton
+            android:id="@+id/btn_direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/medium_margin"
             android:background="@color/colorWhite"
-            android:src="@drawable/ic_search_black_32dp"
+            android:src="@drawable/ic_directions_black_24dp"
             android:tint="@color/colorText" />
 
         <AutoCompleteTextView
@@ -61,4 +72,5 @@
             android:src="@drawable/ic_arrow_back_black_24dp"
             android:tint="@color/colorText" />
     </RelativeLayout>
+
 </RelativeLayout>

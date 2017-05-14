@@ -18,6 +18,7 @@ import com.klimchuk.and.data.source.StaticDataCache;
 import com.klimchuk.and.search.ISearch;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdate;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
@@ -137,19 +138,33 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     @Override
     public void moveToBounds(List<Marker> list) {
 
-        if (list.size() == 0)
-            return;
+        try {
+            if (list.size() == 0)
+                return;
 
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (int i = 0; i < list.size(); i++) {
-            builder.include(list.get(i).getPosition());
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (int i = 0; i < list.size(); i++) {
+                builder.include(list.get(i).getPosition());
+            }
+
+            LatLngBounds bounds = builder.build();
+            int padding = 100; // offset from edges of the mMap in pixels
+
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            mMap.animateCamera(cu);
+
+        } catch (Exception e) {
+
+            if (list.size() != 0) {
+                CameraPosition position = new CameraPosition.Builder()
+                        .target(list.get(0).getPosition()) // Sets the new camera position
+                        .tilt(30) // Set the camera tilt
+                        .build();
+
+                mMap.animateCamera(CameraUpdateFactory
+                        .newCameraPosition(position), 7000);
+            }
         }
-
-        LatLngBounds bounds = builder.build();
-        int padding = 100; // offset from edges of the mMap in pixels
-
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        mMap.animateCamera(cu);
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.klimchuk.and.maps.IMaps;
 import com.klimchuk.and.maps.MapsFragment;
 import com.klimchuk.and.search.ISearch;
 import com.klimchuk.and.search.SearchFragment;
+import com.klimchuk.and.search_directions.DirectionsFragment;
 
 import java.util.List;
 
@@ -77,6 +78,17 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void setToolbarVisibility(int visibility) {
         mToolbarCallback.setToolbarVisibility(visibility);
+    }
+
+    @Override
+    public void showDirectionsFragment() {
+        FragmentTransaction ft = ((AppCompatActivity) mView.getContext())
+                .getSupportFragmentManager().beginTransaction();
+
+        DirectionsFragment fragment = DirectionsFragment.newInstance();
+
+        ft.add(R.id.search_container, fragment);
+        ft.commit();
     }
 
 

@@ -15,6 +15,7 @@ public class Tag {
 
     @SerializedName("text")
     @Expose
+
     private String text;
 
     public Integer getId() {

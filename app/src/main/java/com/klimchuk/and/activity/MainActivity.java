@@ -11,7 +11,7 @@ import com.klimchuk.and.search.ISearch;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ISearch.SearchCallback, MainContract.View, ISearch.ClosePlaceCallback, IMaps.ShowToolbarCallback {
+public class MainActivity extends AppCompatActivity implements ISearch.SearchCallback, MainContract.View, ISearch.ClosePlaceCallback, IMaps.ShowToolbarCallback, ISearch.ShowDirectionsFragment {
 
     private MainContract.Presenter mPresenter;
 
@@ -47,5 +47,10 @@ public class MainActivity extends AppCompatActivity implements ISearch.SearchCal
     @Override
     public void setToolbarVisibility(int visibility) {
         mPresenter.setToolbarVisibility(visibility);
+    }
+
+    @Override
+    public void onDirectionsClick() {
+        mPresenter.showDirectionsFragment();
     }
 }

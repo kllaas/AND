@@ -40,6 +40,8 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bac
     @BindView(R.id.toolbar)
     View toolbar;
 
+    private ISearch.ShowDirectionsFragment mShowDirectionsCallback;
+
     private SearchCallback searchCallback;
 
     private ISearch.ClosePlaceCallback mCloseCallback;
@@ -64,6 +66,7 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bac
 
         searchCallback = ((MainActivity) getActivity());
         mCloseCallback = ((MainActivity) getActivity());
+        mShowDirectionsCallback = ((MainActivity) getActivity());
 
         mPresenter = new SearchPresenter(this);
 
@@ -83,6 +86,11 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bac
 
     @OnClick(R.id.btn_search)
     public void onClick(View v) {
+        mPresenter.startSearch(editText.getText().toString());
+    }
+
+    @OnClick(R.id.btn_search)
+    public void onDirections(View v) {
         mPresenter.startSearch(editText.getText().toString());
     }
 

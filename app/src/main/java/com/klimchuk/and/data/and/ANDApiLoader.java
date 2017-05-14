@@ -37,7 +37,7 @@ public class ANDApiLoader {
                     StaticDataCache.places = parsePlaces(response.body().toString());
                     callback.onPlaceLoaded(StaticDataCache.places);
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

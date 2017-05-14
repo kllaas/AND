@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/small_margin">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:tint="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/some_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/btn_back"
+            android:text="Some text"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/some_text"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_toEndOf="@+id/btn_back" />
+
+        <EditText
+            android:id="@+id/et_destination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/et_from"
+            android:layout_below="@+id/et_from"
+            android:layout_marginEnd="@dimen/small_margin" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
