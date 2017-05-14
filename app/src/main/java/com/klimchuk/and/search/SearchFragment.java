@@ -18,7 +18,9 @@ import com.klimchuk.and.activity.BackPressedCallback;
 import com.klimchuk.and.activity.MainActivity;
 import com.klimchuk.and.data.Place;
 import com.klimchuk.and.maps.IMaps;
+import com.klimchuk.and.maps.MapsFragment;
 import com.klimchuk.and.search.ISearch.SearchCallback;
+import com.klimchuk.and.utils.FragmentHelper;
 
 import java.util.List;
 
@@ -90,6 +92,7 @@ public class SearchFragment extends Fragment implements SearchContract.View, Bac
     @OnClick(R.id.btn_direction)
     public void onDirections(View v) {
         mShowDirectionsCallback.onDirectionsClick();
+        ((MapsFragment) FragmentHelper.getByTag(FragmentHelper.MAPS_FRAGMENT)).hideSlidingLayout();
     }
 
     @OnClick(R.id.btn_close)

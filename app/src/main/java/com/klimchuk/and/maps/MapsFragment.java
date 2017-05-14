@@ -47,6 +47,7 @@ import butterknife.OnClick;
 public class MapsFragment extends Fragment implements MapsContract.View, ISearch.SearchCallback, ISearch.ClosePlaceCallback, IDirections.DirectionsCallback {
 
     private static final int VERTICAL_ITEM_SPACE = 48;
+    public static int ZOOM_THRESHOLD = 14;
     @BindView(R.id.map_view)
     MapView mapView;
     @BindView(R.id.sliding_layout)
@@ -57,10 +58,8 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
     View dragView;
     @BindView(R.id.ic_pick_location)
     ImageView locationPicker;
-
     @BindView(R.id.btn_choose_place)
     Button btnChoosePlace;
-
     private IMaps.ShowToolbarCallback mShowToolbarCallback;
 
     private MapboxMap mMap;
@@ -103,7 +102,7 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
             mMap = mapboxMap;
 
             mMap.setOnCameraChangeListener(pos -> {
-                if (pos.zoom > 15) {
+                if (pos.zoom > ZOOM_THRESHOLD) {
                     if (mapboxMap.getMarkers().size() == 0)
                         mPresenter.configureMarkers(StaticDataCache.places, false);
                 } else
@@ -139,6 +138,9 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
         });
     }
 
+    public void hideSlidingLayout() {
+        mSlidingLayout.setPanelHeight(0);
+    }
 
     @Override
     public void showMarkers(List<MarkerViewOptions> markers) {
@@ -164,7 +166,7 @@ public class MapsFragment extends Fragment implements MapsContract.View, ISearch
             }
 
             LatLngBounds bounds = builder.build();
-            int padding = 0; // offset from edges of the mMap in pixels
+            int padding = 120; // offset from edges of the mMap in pixels
 
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             mMap.animateCamera(cu);

@@ -87,7 +87,7 @@ public class DirectionsFragment extends Fragment implements DirectionsContract.V
                     String.valueOf(searchLocations[1].getLatitude()), String.valueOf(searchLocations[1].getLongitude()));
     }
 
-    @OnClick(R.id.btn_search)
+    @OnClick(R.id.btn_back)
     public void onCancel(View v) {
         ((MapsFragment) FragmentHelper.getByTag(FragmentHelper.MAPS_FRAGMENT)).removePickerVisibility();
         FragmentHelper.removeFragment((AppCompatActivity) getActivity(), FragmentHelper.DIRECTION_FRAGMENT);
