@@ -31,4 +31,10 @@ public class MainActivity extends AppCompatActivity implements ISearch.SearchCal
     public Context getContext() {
         return this;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mPresenter.onBackPressed();
+    }
 }

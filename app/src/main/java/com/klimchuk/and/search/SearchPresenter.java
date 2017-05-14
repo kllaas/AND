@@ -29,11 +29,13 @@ public class SearchPresenter implements SearchContract.Presenter {
             ANDApiLoader.getPlacesByTag(tag, new LoadingCallback<List<Place>>() {
                 @Override
                 public void onPlaceLoaded(List<Place> places) {
-                    for (Place place : places) {
-                        place.setLatLng(new LatLng(place.getLongitude(), place.getLongitude()));
-                    }
+                    if (places != null && places.size() != 0) {
+                        for (Place place : places) {
+                            place.setLatLng(new LatLng(place.getLongitude(), place.getLongitude()));
+                        }
 
-                    mView.onSearch(places);
+                        mView.onSearch(places);
+                    }
                 }
 
                 @Override

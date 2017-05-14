@@ -19,6 +19,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     private ISearch.SearchCallback mSearchCallback;
 
+    private BackPressedCallback mBackCallback;
+
     private MainContract.View mView;
 
     MainPresenter(MainContract.View view) {
@@ -44,6 +46,7 @@ public class MainPresenter implements MainContract.Presenter {
                 .getSupportFragmentManager().beginTransaction();
 
         SearchFragment fragment = SearchFragment.newInstance();
+        mBackCallback = fragment;
 
         ft.add(R.id.search_container, fragment);
         ft.commit();
@@ -52,5 +55,10 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void onSearch(List<Place> places) {
         mSearchCallback.onSearch(places);
+    }
+
+    @Override
+    public void onBackPressed() {
+        mBackCallback.onBackPressed();
     }
 }

@@ -21,6 +21,8 @@ public interface MainContract  {
     interface Presenter {
 
         void onSearch(List<Place> places);
+
+        void onBackPressed();
     }
 
 }

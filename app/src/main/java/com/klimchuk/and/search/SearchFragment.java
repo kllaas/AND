@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 
 import com.klimchuk.and.R;
+import com.klimchuk.and.activity.BackPressedCallback;
 import com.klimchuk.and.activity.MainActivity;
 import com.klimchuk.and.data.Place;
 import com.klimchuk.and.search.ISearch.SearchCallback;
@@ -24,7 +26,7 @@ import butterknife.OnClick;
  * Created by alexey on 13.05.17.
  */
 
-public class SearchFragment extends Fragment implements SearchContract.View{
+public class SearchFragment extends Fragment implements SearchContract.View, BackPressedCallback {
 
     @BindView(R.id.et_search)
     AutoCompleteTextView editText;
@@ -32,9 +34,9 @@ public class SearchFragment extends Fragment implements SearchContract.View{
     private SearchContract.Presenter mPresenter;
 
     public static SearchFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         SearchFragment fragment = new SearchFragment();
         fragment.setArguments(args);
         return fragment;
@@ -54,6 +56,17 @@ public class SearchFragment extends Fragment implements SearchContract.View{
         return view;
     }
 
+    void onChangeFocus() {
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
+        System.out.println(editText.hasFocus());
+        editText.setSelected(false);
+    }
+
     @OnClick(R.id.btn_search)
     public void onClick(View v) {
         mPresenter.startSearch(editText.getText().toString());
@@ -66,6 +79,13 @@ public class SearchFragment extends Fragment implements SearchContract.View{
 
     @Override
     public void onSearch(List<Place> place) {
+        onChangeFocus();
         searchCallback.onSearch(place);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        onChangeFocus();
     }
 }
